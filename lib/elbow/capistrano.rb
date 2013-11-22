@@ -4,25 +4,23 @@ require 'net/dns'
 Capistrano::Configuration.instance(:must_exist).load do
 
   def elastic_load_balancer(name, *args)
-    LoadBalancer.find(name).instances.each do |instance|
+    Elbow::LoadBalancer.find(name).instances.each do |instance|
       hostname = instance.dns_name || instance.private_ip_address
       server(hostname, *args)
     end
   end
 
   def elastic_load_balancer_single_instance(name, *args)
-    instance = LoadBalancer.find(name).instances.first
+    instance = Elbow::LoadBalancer.find(name).instances.first
     hostname = instance.dns_name || instance.private_ip_address
     server(hostname, *args)
   end
 
 end
 
-module LoadBalancer
-  def self.included(base)
-    base.extend(ClassMethods)
-  end
-  def find(name)
+class Elbow::LoadBalancer
+
+  def self.find(name)
     packet = Net::DNS::Resolver.start(name)
     all_cnames= packet.answer.reject { |p| !p.instance_of? Net::DNS::RR::CNAME }
     cname = all_cnames.find { |c| c.name == "#{name}."}.cname[0..-2]
