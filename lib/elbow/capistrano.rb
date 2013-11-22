@@ -19,7 +19,9 @@ Capistrano::Configuration.instance(:must_exist).load do
 end
 
 module LoadBalancer
-
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
   def find(name)
     packet = Net::DNS::Resolver.start(name)
     all_cnames= packet.answer.reject { |p| !p.instance_of? Net::DNS::RR::CNAME }
