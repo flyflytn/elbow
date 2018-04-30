@@ -4,8 +4,8 @@ require File.expand_path('../lib/elbow/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Stephen Bartlett"]
   gem.email         = ["stephenb@rtlett.org"]
-  gem.description   = %q{Capistrano plugin for deploying to an AWS Elastic Load Balancer}
-  gem.summary       = %q{Use this gem as a plugin to Capistrano to deploy to EC2 instances behind an Elastic Load Balancer}
+  gem.description   = %q{Capistrano plugin for deploying to an AWS Elastic Load Balancer classic and v2}
+  gem.summary       = %q{Use this gem as a plugin to Capistrano to deploy to EC2 instances behind an Elastic Load Balancer or Application Load Balancer}
   gem.homepage      = "https://github.com/srbartlett/elbow"
 
   gem.files         = `git ls-files`.split($\)
