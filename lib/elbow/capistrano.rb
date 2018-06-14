@@ -1,7 +1,8 @@
 require 'aws-sdk'
 require 'net/dns'
+require 'capistrano/dsl'
 
-Capistrano::Configuration.instance(:must_exist).load do
+  include Capistrano::DSL
 
   def elastic_load_balancer(name, *args)
     find_instances(name).each do |instance|
@@ -64,7 +65,4 @@ Capistrano::Configuration.instance(:must_exist).load do
     all_cnames= packet.answer.reject { |p| !p.instance_of? Net::DNS::RR::CNAME }
     all_cnames.find { |c| c.name == "#{name}."}.cname[0..-2]
   end
-
-
-end
 
